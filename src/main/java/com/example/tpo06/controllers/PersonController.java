@@ -1,23 +1,27 @@
 package com.example.tpo06.controllers;
 
+import com.example.tpo06.data.FormData;
 import com.example.tpo06.dto.PersonDTO;
 import com.example.tpo06.services.DataService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Controller
+@RequestMapping("/")
+@SessionAttributes("formData")
 public class PersonController {
 
     private final DataService dataService;
@@ -26,41 +30,34 @@ public class PersonController {
         this.dataService = dataService;
     }
 
-    @GetMapping("/")
-    public String index(Model model) {
+    @ModelAttribute("formData")
+    public FormData formData() {
+        return new FormData();
+    }
+
+    @GetMapping
+    public String index(Model model, @ModelAttribute("formData") FormData formData) {
         model.addAttribute("languages", getLanguages());
-        model.addAttribute("selectedCount", 5);
-        model.addAttribute("selectedLanguage", "en");
-        model.addAttribute("selectedAdditional", new HashSet<String>());
         return "index";
     }
 
-    @PostMapping("/generate")
-    public String generateData(@RequestParam("count") int count,
-                               @RequestParam("language") String language,
-                               @RequestParam(value = "additional", required = false) List<String> additional,
-                               Model model) {
-        Set<String> additionalFields = convertToSet(additional);
+    @PostMapping("generate")
+    public String generateData(@ModelAttribute("formData") FormData formData,
+                               RedirectAttributes redirectAttributes) {
         try {
-            List<PersonDTO> persons = dataService.generatePersons(count, language, additionalFields);
-            model.addAttribute("persons", persons);
-            model.addAttribute("headers", getHeaders(language));
+            List<PersonDTO> persons = dataService.generatePersons(
+                    formData.getCount(), formData.getLanguage(), formData.getAdditional());
+            redirectAttributes.addFlashAttribute("persons", persons);
+            redirectAttributes.addFlashAttribute("headers", getHeaders(formData.getLanguage()));
         } catch (Exception e) {
-            model.addAttribute("error", "Error generating data: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("error", "Error generating data: " + e.getMessage());
         }
-        model.addAttribute("languages", getLanguages());
-        model.addAttribute("selectedCount", count);
-        model.addAttribute("selectedLanguage", language);
-        model.addAttribute("selectedAdditional", additionalFields);
-        return "index";
+        redirectAttributes.addFlashAttribute("languages", getLanguages());
+        return "redirect:/";
     }
 
     private String[] getLanguages() {
         return new String[]{"en", "es", "fr", "de", "it", "pt", "uk", "zh", "ja", "ar"};
-    }
-
-    private Set<String> convertToSet(List<String> additional) {
-        return additional != null ? new HashSet<>(additional) : new HashSet<>();
     }
 
     private String[] getHeaders(String language) {
