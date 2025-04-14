@@ -12,9 +12,9 @@ public class PersonDTO {
     private String address;
     private String university;
     private String country;
-    private String arbitrary1;
-    private String arbitrary2;
-    private String arbitrary3;
-    private String arbitrary4;
-    private String arbitrary5;
+    private String height;
+    private String weight;
+    private String hobby;
+    private String petName;
+    private String favouriteMusicGenre;
 }
