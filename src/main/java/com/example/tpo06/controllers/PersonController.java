@@ -1,4 +1,3 @@
-
 package com.example.tpo06.controllers;
 
 import com.example.tpo06.dto.PersonDTO;
@@ -25,6 +24,9 @@ public class PersonController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("languages", getLanguages());
+        model.addAttribute("selectedCount", 5);
+        model.addAttribute("selectedLanguage", "en");
+        model.addAttribute("selectedAdditional", new HashSet<String>());
         return "index";
     }
 
@@ -33,8 +35,8 @@ public class PersonController {
                                @RequestParam("language") String language,
                                @RequestParam(value = "additional", required = false) List<String> additional,
                                Model model) {
+        Set<String> additionalFields = convertToSet(additional);
         try {
-            Set<String> additionalFields = convertToSet(additional);
             List<PersonDTO> persons = dataService.generatePersons(count, language, additionalFields);
             model.addAttribute("persons", persons);
             model.addAttribute("headers", getHeaders(language));
@@ -42,6 +44,9 @@ public class PersonController {
             model.addAttribute("error", "Error generating data: " + e.getMessage());
         }
         model.addAttribute("languages", getLanguages());
+        model.addAttribute("selectedCount", count);
+        model.addAttribute("selectedLanguage", language);
+        model.addAttribute("selectedAdditional", additionalFields);
         return "index";
     }
 
@@ -100,12 +105,11 @@ public class PersonController {
                     "العنوان", "الجامعة", "البلد",
                     "الطول", "الوزن", "الهواية", "اسم الحيوان الأليف", "نوع الموسيقى المفضل"
             };
-            default ->
-                    new String[]{
-                            "First Name", "Last Name", "Date of Birth",
-                            "Address", "University", "Country",
-                            "Height", "Weight", "Hobby", "Pet Name", "Favourite Music Genre"
-                    };
+            default -> new String[]{
+                    "First Name", "Last Name", "Date of Birth",
+                    "Address", "University", "Country",
+                    "Height", "Weight", "Hobby", "Pet Name", "Favourite Music Genre"
+            };
         };
     }
 }
