@@ -1,0 +1,10 @@
+en=First Name, Last Name, Date of Birth, Address, University, Country, Height, Weight, Hobby, Pet Name, Favourite Music Genre
+es=Nombre, Apellido, Fecha de Nacimiento, Dirección, Universidad, País, Altura, Peso, Pasatiempo, Nombre de Mascota, Género Musical Favorito
+fr=Prénom, Nom, Date de Naissance, Adresse, Université, Pays, Taille, Poids, Loisir, Nom de l'animal, Genre Musical Préféré
+de=Vorname, Nachname, Geburtsdatum, Adresse, Universität, Land, Größe, Gewicht, Hobby, Haustiername, Lieblingsmusikgenre
+it=Nome, Cognome, Data di Nascita, Indirizzo, Università, Paese, Altezza, Peso, Hobby, Nome dell'Animale Domestico, Genere Musicale Preferito
+pt=Primeiro Nome, Sobrenome, Data de Nascimento, Endereço, Universidade, País, Altura, Peso, Hobby, Nome do Animal de Estimação, Gênero Musical Favorito
+uk=Ім'я, Прізвище, Дата народження, Адреса, Університет, Країна, Зріст, Вага, Хобі, Ім'я улюбленця, Улюблений музичний жанр
+zh=名字, 姓氏, 出生日期, 地址, 大学, 国家, 身高, 体重, 爱好, 宠物名称, 最爱的音乐类型
+ja=名, 姓, 生年月日, 住所, 大学, 国, 身長, 体重, 趣味, ペットの名前, 好きな音楽のジャンル
+ar=الاسم الأول, اسم العائلة, تاريخ الميلاد, العنوان, الجامعة, البلد, الطول, الوزن, الهواية, اسم الحيوان الأليف, نوع الموسيقى المفضل
